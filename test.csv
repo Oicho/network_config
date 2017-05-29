@@ -1,0 +1,3 @@
+#ip,username,password,type(optional)
+10.0.1.1,admin,admin,hp_comware
+10.0.1.2,admin,admin,hp_comware
