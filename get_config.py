@@ -41,18 +41,23 @@ class NetworkDevice:
 def read_inventory(filename):
     network_devices = []
 
-    inventory = open(filename, 'r')
-    for line in inventory.readlines():
-        if line.startswith('#'):
-            continue
-        line_array = line.strip().split((','))
-        device = NetworkDevice(line_array[0], line_array[1], line_array[2], line_array[3])
-        network_devices.append(device)
+    try:
+        inventory = open(filename, 'r')
+        for line in inventory.readlines():
+            if line.startswith('#'):
+                continue
+            (ip, user, password, type) = line.strip().split((','))
+            device = NetworkDevice(ip, user, password, type)
+            network_devices.append(device)
+    except (OSError, IOError) as e:
+        print('Could not open file. ' + str(e))
+    except Exception as e:
+        print('Error while reading inventory file. ' + str(e))
 
     return network_devices
 
 if __name__ == '__main__':
-    network_devices = read_inventory('test.csv')
+    network_devices = read_inventory('inventory.csv')
 
     for device in network_devices:
         print(device.get_config())
